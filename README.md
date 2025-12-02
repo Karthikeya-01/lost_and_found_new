@@ -2,8 +2,7 @@
 
 An intelligent lost and found matching system for university campuses that uses classical machine learning techniques to automatically match lost items with found items based on image and text features.
 
-![Python](https://img.shields.io/badge/python-3.8+-blue.svg)
-![License](https://img.shields.io/badge/license-MIT-green.svg)
+![Python](https://img.shields.io/badge/python-3.12+-blue.svg)
 ![Status](https://img.shields.io/badge/status-active-success.svg)
 
 ## 📋 Table of Contents
