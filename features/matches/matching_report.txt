@@ -1,0 +1,58 @@
+================================================================================
+MATCHING RESULTS REPORT
+================================================================================
+
+Configuration:
+  Method: fast
+  Image weight: 0.6
+  Text weight: 0.4
+  Top-K: 5
+  Min similarity: 0.3
+  Category match: True
+
+Overall Statistics:
+  Total lost items: 673
+  Items with matches: 673 (100.0%)
+  Items without matches: 0 (0.0%)
+
+Similarity Distribution:
+  Mean: 0.997
+  Median: 1.000
+  Std Dev: 0.018
+  Min: 0.706
+  Max: 1.000
+
+Sample Matches (Top 5 Lost Items):
+--------------------------------------------------------------------------------
+
+1. Lost Item: ca8e881a-025e-47bb-aabf-c81027bb8afd
+   Found 5 matches:
+     1. Found 0488fb12-45ee-4f13-b987-d84b69ae3c1b: 1.000
+     2. Found bfeb63d2-5800-400b-8ea6-584081ac0424: 1.000
+     3. Found 399f6dec-494d-4508-ba52-716a1b00baff: 1.000
+
+2. Lost Item: 6bd20e5d-a60c-4bc6-821d-20b4a577f3ef
+   Found 5 matches:
+     1. Found c9ef206d-0372-47c5-890a-0151207b63ef: 1.000
+     2. Found cf5c06c8-fd02-432c-ae75-f1aa0e7b2423: 1.000
+     3. Found 0994b36b-d09d-4c0e-9cd1-f49d1a4b6780: 1.000
+
+3. Lost Item: 7834559b-55d2-41d0-99bc-a74f64bb699e
+   Found 5 matches:
+     1. Found 113238fe-f06a-4c69-b5b3-913df49dfd08: 1.000
+     2. Found 66d9f4eb-1c3c-4a7d-a1c9-1f660e05f7f0: 1.000
+     3. Found 47c24867-2fd1-4455-a34d-3fe0965dcb1a: 1.000
+
+4. Lost Item: a08f3be7-174f-4724-884d-bcd8c026d99f
+   Found 5 matches:
+     1. Found 9c3f2849-8c33-48eb-9126-69acdae0d072: 1.000
+     2. Found cd097df7-ef24-498b-bf51-7310e8022506: 1.000
+     3. Found baf60096-21e8-4ef5-a9f8-0f3d0edb6232: 0.999
+
+5. Lost Item: 4c33173e-d915-439d-b68a-be1d6b7905ff
+   Found 5 matches:
+     1. Found cd097df7-ef24-498b-bf51-7310e8022506: 0.999
+     2. Found 9d29c276-cc2b-4dc7-8bb4-d57b1b740e06: 0.999
+     3. Found 9c3f2849-8c33-48eb-9126-69acdae0d072: 0.998
+
+================================================================================

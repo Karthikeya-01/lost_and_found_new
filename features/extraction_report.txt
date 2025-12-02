@@ -1,0 +1,25 @@
+================================================================================
+FEATURE EXTRACTION STATISTICS
+================================================================================
+
+Overall Statistics:
+  Total items processed: 1308
+  Lost items: 673
+  Found items: 635
+
+  Image feature dimension: 184
+  Text feature dimension: 126
+
+By Category:
+  bags................ Total: 151  (Lost:  82, Found:  69)
+  books............... Total:  25  (Lost:  14, Found:  11)
+  calculators......... Total: 100  (Lost:  51, Found:  49)
+  computer-mouse...... Total:  94  (Lost:  53, Found:  41)
+  earphones........... Total: 138  (Lost:  70, Found:  68)
+  glasses............. Total:  83  (Lost:  39, Found:  44)
+  id_cards............ Total:  21  (Lost:   7, Found:  14)
+  keys................ Total:  22  (Lost:  12, Found:  10)
+  wallets............. Total: 261  (Lost: 138, Found: 123)
+  water_bottles....... Total: 413  (Lost: 207, Found: 206)
+
+Items with descriptions: 1308 (100.0%)
