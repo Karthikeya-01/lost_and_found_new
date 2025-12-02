@@ -421,28 +421,6 @@ This project deliberately avoids deep learning to:
 
 ---
 
-## 🤝 Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-### Development Setup
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-### Coding Standards
-
-- Follow PEP 8 style guide
-- Add docstrings to all functions
-- Include type hints where appropriate
-- Write unit tests for new features
-- Update documentation as needed
-
-
-
 ## 📚 References
 
 1. Lowe, D. G. (2004). Distinctive image features from scale-invariant keypoints. *International Journal of Computer Vision*.
