@@ -57,25 +57,6 @@ Losing personal belongings on campus is a common problem, and connecting those w
 
 ---
 
-## 🎬 Demo
-
-### Screenshots
-
-#### Home Page
-![Home Page](docs/screenshots/home.png)
-
-#### Report Lost Item
-![Report Lost](docs/screenshots/report_lost.png)
-
-#### Match Results
-![Matches](docs/screenshots/matches.png)
-
-### Video Demo
-
-[Watch Demo Video](docs/demo.mp4)
-
----
-
 ## 🚀 Installation
 
 ### Prerequisites
@@ -362,34 +343,6 @@ Where:
 
 ## 📊 Results
 
-### Dataset Statistics
-
-- **Total Items**: [Your number]
-- **Lost Items**: [Your number]
-- **Found Items**: [Your number]
-- **Categories**: 10
-- **Items with Descriptions**: [Your %]
-
-### Matching Performance
-
-```
-Overall Matching Statistics:
-├── Items with Matches: XX (XX%)
-├── Average Similarity: 0.XXX
-├── Median Similarity: 0.XXX
-└── Std Deviation: 0.XXX
-
-Category Performance:
-├── Best Category: water_bottles (avg: 0.72)
-├── Worst Category: books (avg: 0.45)
-└── Most Items: bags (XXX items)
-
-Threshold Analysis:
-├── Conservative (≥0.6): High precision, lower recall
-├── Balanced (≥0.4): Optimal tradeoff
-└── Aggressive (≥0.3): High recall, lower precision
-```
-
 ### Example Matches
 
 **Lost Item: Blue Nike Backpack**
@@ -405,20 +358,6 @@ Rank 2: Found Item F015 - Similarity: 72.1%
   └── Category: bags ✓
 ```
 
-### Evaluation Metrics
-
-If ground truth is available:
-
-```
-Precision@1:  X.XXX
-Precision@5:  X.XXX
-Recall@1:     X.XXX
-Recall@5:     X.XXX
-MRR:          X.XXX
-Top-1 Acc:    XX.X%
-```
-
----
 
 ## 🎓 Technical Details
 
@@ -502,39 +441,7 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 - Write unit tests for new features
 - Update documentation as needed
 
----
 
-## 👥 Contributors
-
-- **[Your Name]** - Project Lead - [GitHub](https://github.com/yourusername)
-- **[Team Member 2]** - Feature Extraction
-- **[Team Member 3]** - UI Development
-- **[Team Member 4]** - Evaluation
-
----
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
----
-
-## 🙏 Acknowledgments
-
-- Thanks to [University Name] for the project opportunity
-- Inspired by real campus lost and found challenges
-- Built with classical ML techniques as a learning exercise
-- Special thanks to the open-source community
-
----
-
-## 📞 Contact
-
-**Project Link**: [https://github.com/yourusername/campus-lost-found](https://github.com/yourusername/campus-lost-found)
-
-**Email**: your.email@example.com
-
----
 
 ## 📚 References
 
@@ -542,13 +449,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 2. Ojala, T., Pietikäinen, M., & Harwood, D. (1996). A comparative study of texture measures with classification based on featured distributions. *Pattern Recognition*.
 3. Salton, G., & Buckley, C. (1988). Term-weighting approaches in automatic text retrieval. *Information Processing & Management*.
 
----
-
-## ⭐ Star History
-
-[![Star History Chart](https://api.star-history.com/svg?repos=yourusername/campus-lost-found&type=Date)](https://star-history.com/#yourusername/campus-lost-found&Date)
-
----
 
 <div align="center">
   
