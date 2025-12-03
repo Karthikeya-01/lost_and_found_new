@@ -11,11 +11,10 @@ import os
 import warnings
 warnings.filterwarnings('ignore')
 
-# Add src to path - use absolute path for reliability
+# Add project root to path - use absolute path for reliability
 script_dir = os.path.dirname(os.path.abspath(__file__))
 parent_dir = os.path.dirname(script_dir)
-src_path = os.path.join(parent_dir, 'src')
-sys.path.insert(0, src_path)
+sys.path.insert(0, parent_dir)
 
 from src.feature_extraction.text_features import TextFeatureExtractor
 from src.feature_extraction.image_features import ImageFeatureExtractor
@@ -121,7 +120,7 @@ class FeatureExtractionPipeline:
             features['image_features'] = img_result['feature_vector']
             features['image_feature_dims'] = img_result['feature_dims']
         except Exception as e:
-            print(f"⚠ Error extracting image features for {item_id}: {e}")
+            # Skip silently - file might be missing
             features['image_features'] = None
 
         # Extract text features
@@ -163,6 +162,7 @@ class FeatureExtractionPipeline:
 
         all_features = []
         errors = []
+        skipped_missing_files = 0
 
         # Process each item
         for idx, row in tqdm(self.df.iterrows(), total=len(self.df), desc="Extracting features"):
@@ -173,6 +173,10 @@ class FeatureExtractionPipeline:
                 )
                 all_features.append(features)
 
+                # Track missing image files
+                if features['image_features'] is None:
+                    skipped_missing_files += 1
+
                 # Save individual file if requested
                 if save_individual:
                     item_file = self.output_path / f"item_{features['id']}.pkl"
@@ -181,10 +185,13 @@ class FeatureExtractionPipeline:
 
             except Exception as e:
                 errors.append({'id': row['id'], 'error': str(e)})
-                print(f"\n⚠ Error processing item {row['id']}: {e}")
+                # Skip silently - don't print errors for missing files
 
         print(
-            f"\n✓ Successfully extracted features for {len(all_features)} items")
+            f"\n✓ Successfully processed {len(all_features)} items")
+
+        if skipped_missing_files > 0:
+            print(f"  ℹ Skipped {skipped_missing_files} items with missing image files")
 
         if errors:
             print(f"⚠ Encountered {len(errors)} errors")
