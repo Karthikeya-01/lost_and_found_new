@@ -3144,12 +3144,21 @@ Interactive web interface for the Lost and Found matching system.
 
 # Add project root to path FIRST, before any imports
 import sys
+import os
 from pathlib import Path
 
-# Get the project root directory (parent of app directory)
+# Get the project root directory
+# Use __file__ to get the script location, then go up to project root
+script_path = Path(__file__).resolve()
+# If this file is in app/streamlit_app.py, go up one level to project root
+project_root = script_path.parent.parent
+
+# Change working directory to project root so relative paths work
+os.chdir(project_root)
+
 # Add project root to path
-project_root = Path(__file__).parent.parent
-sys.path.insert(0, str(project_root))
+if str(project_root) not in sys.path:
+    sys.path.insert(0, str(project_root))
 
 # Now import everything else
 import streamlit as st
@@ -3158,7 +3167,6 @@ import json
 import numpy as np
 import pandas as pd
 from PIL import Image
-import os
 from datetime import datetime
 
 # Import from src after path is set up
