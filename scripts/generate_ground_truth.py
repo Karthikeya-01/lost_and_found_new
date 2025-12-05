@@ -151,7 +151,7 @@ def compute_similarity(lost_item, found_item):
     return final_score
 
 
-def generate_ground_truth(metadata, min_confidence=0.75, max_per_lost=1):
+def generate_ground_truth(metadata, min_confidence=0.35, max_per_lost=1):
     """Generate ground truth matches"""
     
     # Separate lost and found items
@@ -230,7 +230,7 @@ def main():
     print("Using hybrid moderate-comprehensive approach")
     print()
     
-    ground_truth, details = generate_ground_truth(metadata, min_confidence=0.75)
+    ground_truth, details = generate_ground_truth(metadata, min_confidence=0.35)
     
     # Print statistics
     print()

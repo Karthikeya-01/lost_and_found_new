@@ -62,7 +62,7 @@ class KNNMatcher:
         )
 
         self.model.fit(self.found_features)
-        print(f"✓ KNN model trained successfully")
+        print(f"[OK] KNN model trained successfully")
 
     def predict(self, lost_feature, lost_category=None, filter_category=True):
         """
@@ -149,7 +149,7 @@ class KNNMatcher:
         with open(filepath, 'wb') as f:
             pickle.dump(model_data, f)
 
-        print(f"✓ KNN model saved to: {filepath}")
+        print(f"[OK] KNN model saved to: {filepath}")
 
     @classmethod
     def load(cls, filepath):
@@ -168,7 +168,7 @@ class KNNMatcher:
         matcher.found_categories = model_data['found_categories']
         matcher.scaler = model_data['scaler']
 
-        print(f"✓ KNN model loaded from: {filepath}")
+        print(f"[OK] KNN model loaded from: {filepath}")
         return matcher
 
 
@@ -238,7 +238,7 @@ class SVMMatcher:
                     y_labels.append(1)  # Positive match
 
         n_positive = len(y_labels)
-        print(f"  ✓ Created {n_positive} positive pairs")
+        print(f"  [OK] Created {n_positive} positive pairs")
 
         # Create negative pairs (different category or random)
         print("  Creating negative pairs (different category)...")
@@ -266,7 +266,7 @@ class SVMMatcher:
             X_pairs.append(pair_features)
             y_labels.append(0)  # Negative match
 
-        print(f"  ✓ Created {n_negative_needed} negative pairs")
+        print(f"  [OK] Created {n_negative_needed} negative pairs")
 
         X_train = np.array(X_pairs)
         y_train = np.array(y_labels)
@@ -321,7 +321,7 @@ class SVMMatcher:
 
         # Training accuracy
         train_acc = self.model.score(X_train_normalized, y_train)
-        print(f"✓ SVM model trained successfully")
+        print(f"[OK] SVM model trained successfully")
         print(f"  Training accuracy: {train_acc:.3f}")
 
     def predict_match_probability(self, lost_feature, found_feature):
@@ -412,7 +412,7 @@ class SVMMatcher:
         with open(filepath, 'wb') as f:
             pickle.dump(model_data, f)
 
-        print(f"✓ SVM model saved to: {filepath}")
+        print(f"[OK] SVM model saved to: {filepath}")
 
     @classmethod
     def load(cls, filepath):
@@ -429,7 +429,7 @@ class SVMMatcher:
         matcher.scaler = model_data['scaler']
         matcher.trained = model_data['trained']
 
-        print(f"✓ SVM model loaded from: {filepath}")
+        print(f"[OK] SVM model loaded from: {filepath}")
         return matcher
 
 
@@ -507,4 +507,4 @@ if __name__ == "__main__":
         print(
             f"  Rank {match['rank']}: {match['found_id']} - Probability: {match['similarity']:.3f}")
 
-    print("\n✓ ML models test complete!")
+    print("\n[OK] ML models test complete!")

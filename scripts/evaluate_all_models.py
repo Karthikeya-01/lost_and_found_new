@@ -51,9 +51,9 @@ class ModelEvaluator:
         if ground_truth_file and Path(ground_truth_file).exists():
             with open(ground_truth_file, 'r') as f:
                 self.ground_truth = json.load(f)
-            print(f"✓ Loaded ground truth for {len(self.ground_truth)} items")
+            print(f"[OK] Loaded ground truth for {len(self.ground_truth)} items")
         else:
-            print("⚠ No ground truth provided. Some metrics will not be available.")
+            print("[WARNING] No ground truth provided. Some metrics will not be available.")
         
         # Load features
         self.load_features()
@@ -69,7 +69,7 @@ class ModelEvaluator:
         with open(self.features_path / 'all_features.pkl', 'rb') as f:
             self.all_features = pickle.load(f)
         
-        print(f"✓ Loaded features")
+        print(f"[OK] Loaded features")
         print(f"  Lost items: {len(self.feature_matrices['lost']['ids'])}")
         print(f"  Found items: {len(self.feature_matrices['found']['ids'])}")
     
@@ -77,25 +77,25 @@ class ModelEvaluator:
         """Load trained models"""
         # Similarity-based
         self.similarity_computer = SimilarityComputer(weights={'image': 0.6, 'text': 0.4})
-        print("✓ Initialized Similarity-based matcher")
-        
+        print("[OK] Initialized Similarity-based matcher")
+
         # KNN
         knn_path = self.models_path / 'knn_matcher.pkl'
         if knn_path.exists():
             self.knn_matcher = KNNMatcher.load(knn_path)
-            print("✓ Loaded KNN matcher")
+            print("[OK] Loaded KNN matcher")
         else:
             self.knn_matcher = None
-            print("⚠ KNN model not found")
-        
+            print("[WARNING] KNN model not found")
+
         # SVM
         svm_path = self.models_path / 'svm_matcher.pkl'
         if svm_path.exists():
             self.svm_matcher = SVMMatcher.load(svm_path)
-            print("✓ Loaded SVM matcher")
+            print("[OK] Loaded SVM matcher")
         else:
             self.svm_matcher = None
-            print("⚠ SVM model not found")
+            print("[WARNING] SVM model not found")
     
     def compute_matches_similarity(self, top_k=5):
         """Compute matches using Similarity-based model"""
@@ -187,69 +187,93 @@ class ModelEvaluator:
         """Compute Precision@K"""
         if not self.ground_truth:
             return None
-        
+
         precisions = {}
-        
+
         for k in k_values:
-            correct = 0
-            total = 0
-            
+            y_true = []
+            y_pred = []
+
             for lost_id, item_matches in matches.items():
                 if lost_id not in self.ground_truth:
                     continue
-                
+
                 correct_found_id = self.ground_truth[lost_id]
                 top_k_matches = item_matches[:k]
                 found_ids = [m['found_id'] for m in top_k_matches]
-                
-                if correct_found_id in found_ids:
-                    correct += 1
-                total += 1
-            
-            precisions[f'P@{k}'] = correct / total if total > 0 else 0.0
-        
+
+                # For each query, 1 if correct match found in top-k, 0 otherwise
+                y_true.append(1)  # We always have a ground truth match
+                y_pred.append(1 if correct_found_id in found_ids else 0)
+
+            # Calculate precision using sklearn
+            if len(y_true) > 0:
+                precisions[f'P@{k}'] = precision_score(y_true, y_pred, zero_division=0)
+            else:
+                precisions[f'P@{k}'] = 0.0
+
         return precisions
     
     def compute_recall_at_k(self, matches, k_values=[1, 3, 5]):
         """Compute Recall@K"""
         if not self.ground_truth:
             return None
-        
+
         recalls = {}
-        
+
         for k in k_values:
-            correct = 0
-            total = 0
-            
+            y_true = []
+            y_pred = []
+
             for lost_id, item_matches in matches.items():
                 if lost_id not in self.ground_truth:
                     continue
-                
+
                 correct_found_id = self.ground_truth[lost_id]
                 top_k_matches = item_matches[:k]
                 found_ids = [m['found_id'] for m in top_k_matches]
-                
-                if correct_found_id in found_ids:
-                    correct += 1
-                total += 1
-            
-            recalls[f'R@{k}'] = correct / total if total > 0 else 0.0
-        
+
+                # For each query, 1 if correct match found in top-k, 0 otherwise
+                y_true.append(1)  # We always have a ground truth match
+                y_pred.append(1 if correct_found_id in found_ids else 0)
+
+            # Calculate recall using sklearn
+            if len(y_true) > 0:
+                recalls[f'R@{k}'] = recall_score(y_true, y_pred, zero_division=0)
+            else:
+                recalls[f'R@{k}'] = 0.0
+
         return recalls
     
-    def compute_f1_at_k(self, precision, recall):
-        """Compute F1@K from precision and recall"""
+    def compute_f1_at_k(self, matches, k_values=[1, 3, 5]):
+        """Compute F1@K using sklearn"""
+        if not self.ground_truth:
+            return None
+
         f1_scores = {}
-        
-        for k in [1, 3, 5]:
-            p = precision.get(f'P@{k}', 0)
-            r = recall.get(f'R@{k}', 0)
-            
-            if p + r > 0:
-                f1_scores[f'F1@{k}'] = 2 * (p * r) / (p + r)
+
+        for k in k_values:
+            y_true = []
+            y_pred = []
+
+            for lost_id, item_matches in matches.items():
+                if lost_id not in self.ground_truth:
+                    continue
+
+                correct_found_id = self.ground_truth[lost_id]
+                top_k_matches = item_matches[:k]
+                found_ids = [m['found_id'] for m in top_k_matches]
+
+                # For each query, 1 if correct match found in top-k, 0 otherwise
+                y_true.append(1)  # We always have a ground truth match
+                y_pred.append(1 if correct_found_id in found_ids else 0)
+
+            # Calculate F1 using sklearn
+            if len(y_true) > 0:
+                f1_scores[f'F1@{k}'] = f1_score(y_true, y_pred, zero_division=0)
             else:
                 f1_scores[f'F1@{k}'] = 0.0
-        
+
         return f1_scores
     
     def compute_mrr(self, matches):
@@ -330,26 +354,29 @@ class ModelEvaluator:
         return np.mean(ap_scores) if ap_scores else 0.0
     
     def compute_top_k_accuracy(self, matches, k=1):
-        """Compute Top-K Accuracy"""
+        """Compute Top-K Accuracy using sklearn"""
         if not self.ground_truth:
             return None
-        
-        correct = 0
-        total = 0
-        
+
+        y_true = []
+        y_pred = []
+
         for lost_id, item_matches in matches.items():
             if lost_id not in self.ground_truth:
                 continue
-            
+
             correct_found_id = self.ground_truth[lost_id]
             top_k_matches = item_matches[:k]
             found_ids = [m['found_id'] for m in top_k_matches]
-            
-            if correct_found_id in found_ids:
-                correct += 1
-            total += 1
-        
-        return correct / total if total > 0 else 0.0
+
+            y_true.append(1)  # We always have a ground truth match
+            y_pred.append(1 if correct_found_id in found_ids else 0)
+
+        # Use sklearn's accuracy_score
+        if len(y_true) > 0:
+            return accuracy_score(y_true, y_pred)
+        else:
+            return 0.0
     
     def compute_confidence_metrics(self, matches):
         """Compute confidence-based metrics"""
@@ -375,22 +402,22 @@ class ModelEvaluator:
     def compute_z_scores(self, matches):
         """Compute z-scores for similarity distributions"""
         similarities = []
-        
+
         for lost_id, item_matches in matches.items():
             for match in item_matches:
                 similarities.append(match.get('similarity', 0.0))
-        
+
         if len(similarities) < 2:
             return None
-        
+
         mean = np.mean(similarities)
         std = np.std(similarities)
-        
+
         if std == 0:
             return None
-        
+
         z_scores = [(s - mean) / std for s in similarities]
-        
+
         return {
             'mean_z_score': np.mean(z_scores),
             'std_z_score': np.std(z_scores),
@@ -398,7 +425,114 @@ class ModelEvaluator:
             'max_z_score': np.max(z_scores),
             'samples_above_2std': sum(1 for z in z_scores if abs(z) > 2)
         }
-    
+
+    def compute_confusion_matrix(self, matches, k=5):
+        """Compute confusion matrix using sklearn"""
+        if not self.ground_truth:
+            return None
+
+        y_true = []
+        y_pred = []
+
+        for lost_id, item_matches in matches.items():
+            if lost_id not in self.ground_truth:
+                continue
+
+            correct_found_id = self.ground_truth[lost_id]
+            top_k_matches = item_matches[:k]
+            found_ids = [m['found_id'] for m in top_k_matches]
+
+            y_true.append(1)  # We always have a ground truth match
+            y_pred.append(1 if correct_found_id in found_ids else 0)
+
+        if len(y_true) > 0:
+            return confusion_matrix(y_true, y_pred)
+        return None
+
+    def compute_classification_report(self, matches, k=5):
+        """Compute classification report using sklearn"""
+        if not self.ground_truth:
+            return None
+
+        y_true = []
+        y_pred = []
+
+        for lost_id, item_matches in matches.items():
+            if lost_id not in self.ground_truth:
+                continue
+
+            correct_found_id = self.ground_truth[lost_id]
+            top_k_matches = item_matches[:k]
+            found_ids = [m['found_id'] for m in top_k_matches]
+
+            y_true.append(1)  # We always have a ground truth match
+            y_pred.append(1 if correct_found_id in found_ids else 0)
+
+        if len(y_true) > 0:
+            return classification_report(y_true, y_pred, output_dict=True, zero_division=0)
+        return None
+
+    def compute_average_precision(self, matches):
+        """Compute Average Precision Score using sklearn"""
+        if not self.ground_truth:
+            return None
+
+        y_true = []
+        y_scores = []
+
+        for lost_id, item_matches in matches.items():
+            if lost_id not in self.ground_truth:
+                continue
+
+            correct_found_id = self.ground_truth[lost_id]
+
+            # Get the similarity score of the correct match
+            for match in item_matches:
+                if match['found_id'] == correct_found_id:
+                    y_true.append(1)
+                    y_scores.append(match.get('similarity', 0.0))
+                    break
+            else:
+                # Correct match not found in the list
+                y_true.append(1)
+                y_scores.append(0.0)
+
+        if len(y_true) > 0 and len(set(y_true)) > 1:
+            return average_precision_score(y_true, y_scores)
+        return None
+
+    def compute_roc_auc(self, matches):
+        """Compute ROC AUC Score using sklearn"""
+        if not self.ground_truth:
+            return None
+
+        y_true = []
+        y_scores = []
+
+        for lost_id, item_matches in matches.items():
+            if lost_id not in self.ground_truth:
+                continue
+
+            correct_found_id = self.ground_truth[lost_id]
+
+            # For each match in the result, check if it's the correct one
+            for match in item_matches:
+                if match['found_id'] == correct_found_id:
+                    y_true.append(1)
+                    y_scores.append(match.get('similarity', 0.0))
+                else:
+                    y_true.append(0)
+                    y_scores.append(match.get('similarity', 0.0))
+
+        # Need at least 2 classes for ROC AUC
+        if len(y_true) > 0 and len(set(y_true)) > 1:
+            try:
+                return roc_auc_score(y_true, y_scores)
+            except ValueError:
+                # Handle edge cases where ROC AUC can't be computed
+                return None
+        return None
+
     def evaluate_model(self, model_name, matches):
         """Evaluate a single model"""
         print(f"\n{'='*80}")
@@ -415,39 +549,112 @@ class ModelEvaluator:
             # Precision@K
             precision = self.compute_precision_at_k(matches)
             metrics.update(precision)
-            
+
             # Recall@K
             recall = self.compute_recall_at_k(matches)
             metrics.update(recall)
-            
-            # F1@K
-            f1 = self.compute_f1_at_k(precision, recall)
+
+            # F1@K (now uses sklearn directly)
+            f1 = self.compute_f1_at_k(matches)
             metrics.update(f1)
-            
+
             # MRR
             metrics['MRR'] = self.compute_mrr(matches)
-            
+
             # NDCG@5
             metrics['NDCG@5'] = self.compute_ndcg_at_k(matches, k=5)
-            
+
             # MAP@5
             metrics['MAP@5'] = self.compute_map(matches, k=5)
-            
+
             # Top-K Accuracy
             metrics['Top-1 Accuracy'] = self.compute_top_k_accuracy(matches, k=1)
             metrics['Top-3 Accuracy'] = self.compute_top_k_accuracy(matches, k=3)
             metrics['Top-5 Accuracy'] = self.compute_top_k_accuracy(matches, k=5)
-        
+
+            # Additional sklearn metrics
+            cm = self.compute_confusion_matrix(matches, k=5)
+            if cm is not None:
+                metrics['confusion_matrix'] = cm
+
+            # Classification report (for Top-5)
+            report = self.compute_classification_report(matches, k=5)
+            if report:
+                metrics['classification_report'] = report
+
+            # Average Precision Score
+            avg_prec = self.compute_average_precision(matches)
+            if avg_prec is not None:
+                metrics['Average_Precision'] = avg_prec
+
+            # ROC AUC Score
+            roc_auc = self.compute_roc_auc(matches)
+            if roc_auc is not None:
+                metrics['ROC_AUC'] = roc_auc
+
+            # Print additional sklearn metrics
+            self.print_sklearn_metrics(matches, k=5)
+
         # Confidence metrics (always available)
         confidence = self.compute_confidence_metrics(matches)
         metrics.update(confidence)
-        
+
         # Z-scores (always available)
         z_scores = self.compute_z_scores(matches)
         if z_scores:
             metrics.update(z_scores)
-        
+
         return metrics
+
+    def print_sklearn_metrics(self, matches, k=5):
+        """Print detailed sklearn metrics"""
+        if not self.ground_truth:
+            return
+
+        print(f"\n{'='*60}")
+        print("DETAILED SKLEARN METRICS")
+        print(f"{'='*60}")
+
+        # Get predictions
+        y_true = []
+        y_pred = []
+
+        for lost_id, item_matches in matches.items():
+            if lost_id not in self.ground_truth:
+                continue
+
+            correct_found_id = self.ground_truth[lost_id]
+            top_k_matches = item_matches[:k]
+            found_ids = [m['found_id'] for m in top_k_matches]
+
+            y_true.append(1)
+            y_pred.append(1 if correct_found_id in found_ids else 0)
+
+        if len(y_true) == 0:
+            return
+
+        # Confusion Matrix
+        print(f"\nConfusion Matrix (Top-{k}):")
+        cm = confusion_matrix(y_true, y_pred)
+        print(f"  [[TN={cm[0,0] if cm.shape[0] > 1 and cm.shape[1] > 1 else 0}, FP={cm[0,1] if cm.shape[0] > 1 and cm.shape[1] > 1 else 0}],")
+        print(f"   [FN={cm[1,0] if cm.shape[0] > 1 else 0}, TP={cm[1,1] if cm.shape[0] > 1 else cm[0,0]}]]")
+
+        # Classification Report
+        print(f"\nClassification Report (Top-{k}):")
+        report = classification_report(y_true, y_pred, zero_division=0)
+        print(report)
+
+        # ROC AUC Score
+        roc_auc = self.compute_roc_auc(matches)
+        if roc_auc is not None:
+            print(f"\nROC AUC Score: {roc_auc:.4f}")
+
+        # Average Precision Score
+        avg_prec = self.compute_average_precision(matches)
+        if avg_prec is not None:
+            print(f"Average Precision Score: {avg_prec:.4f}")
+
+        print(f"{'='*60}\n")
     
     def create_comparison_table(self, all_metrics):
         """Create comparison table of all models"""
@@ -455,15 +662,16 @@ class ModelEvaluator:
         
         # Reorder columns for better readability
         primary_cols = ['model', 'total_items']
-        ranking_cols = ['P@1', 'P@3', 'P@5', 'R@1', 'R@3', 'R@5', 
+        ranking_cols = ['P@1', 'P@3', 'P@5', 'R@1', 'R@3', 'R@5',
                        'F1@1', 'F1@3', 'F1@5', 'MRR', 'NDCG@5', 'MAP@5',
-                       'Top-1 Accuracy', 'Top-3 Accuracy', 'Top-5 Accuracy']
+                       'Top-1 Accuracy', 'Top-3 Accuracy', 'Top-5 Accuracy',
+                       'Average_Precision', 'ROC_AUC']
         confidence_cols = ['mean_similarity', 'median_similarity', 'std_similarity']
-        
+
         # Only include columns that exist
         cols = primary_cols + [c for c in ranking_cols if c in df.columns] + \
                [c for c in confidence_cols if c in df.columns]
-        
+
         return df[cols]
     
     def plot_comparison(self, all_metrics, output_dir):
@@ -509,25 +717,27 @@ class ModelEvaluator:
             
             plt.tight_layout()
             plt.savefig(output_dir / 'precision_recall_f1.png', dpi=300, bbox_inches='tight')
-            print(f"✓ Saved: {output_dir / 'precision_recall_f1.png'}")
+            print(f"[OK] Saved: {output_dir / 'precision_recall_f1.png'}")
             plt.close()
         
         # Plot 2: Ranking metrics
         if 'MRR' in df.columns:
             fig, ax = plt.subplots(figsize=(10, 6))
-            
-            ranking_metrics = ['MRR', 'NDCG@5', 'MAP@5', 'Top-1 Accuracy']
-            df_ranking = df[['model'] + ranking_metrics].set_index('model')
+
+            ranking_metrics = ['MRR', 'NDCG@5', 'MAP@5', 'Top-1 Accuracy', 'Average_Precision', 'ROC_AUC']
+            # Only include metrics that exist
+            available_metrics = [m for m in ranking_metrics if m in df.columns]
+            df_ranking = df[['model'] + available_metrics].set_index('model')
             df_ranking.plot(kind='bar', ax=ax, rot=0)
             ax.set_title('Ranking Metrics Comparison')
             ax.set_ylabel('Score')
             ax.set_ylim([0, 1])
             ax.legend(title='Metric')
             ax.grid(axis='y', alpha=0.3)
-            
+
             plt.tight_layout()
             plt.savefig(output_dir / 'ranking_metrics.png', dpi=300, bbox_inches='tight')
-            print(f"✓ Saved: {output_dir / 'ranking_metrics.png'}")
+            print(f"[OK] Saved: {output_dir / 'ranking_metrics.png'}")
             plt.close()
         
         # Plot 3: Confidence metrics
@@ -551,9 +761,64 @@ class ModelEvaluator:
             
             plt.tight_layout()
             plt.savefig(output_dir / 'confidence_metrics.png', dpi=300, bbox_inches='tight')
-            print(f"✓ Saved: {output_dir / 'confidence_metrics.png'}")
+            print(f"[OK] Saved: {output_dir / 'confidence_metrics.png'}")
             plt.close()
-    
+
+        # Plot 4: Confusion matrices for each model
+        if 'confusion_matrix' in df.columns:
+            n_models = len(df)
+            fig, axes = plt.subplots(1, n_models, figsize=(6*n_models, 5))
+            if n_models == 1:
+                axes = [axes]
+
+            for idx, (_, row) in enumerate(df.iterrows()):
+                cm = row['confusion_matrix']
+                if cm is not None:
+                    sns.heatmap(cm, annot=True, fmt='d', cmap='Blues',
+                               ax=axes[idx], cbar=False,
+                               xticklabels=['Not Found', 'Found'],
+                               yticklabels=['Not Found', 'Found'])
+                    axes[idx].set_title(f"{row['model']}\nConfusion Matrix")
+                    axes[idx].set_ylabel('True Label')
+                    axes[idx].set_xlabel('Predicted Label')
+
+            plt.tight_layout()
+            plt.savefig(output_dir / 'confusion_matrices.png', dpi=300, bbox_inches='tight')
+            print(f"[OK] Saved: {output_dir / 'confusion_matrices.png'}")
+            plt.close()
+
+    def _convert_metrics_for_json(self, metrics):
+        """Convert numpy arrays and other non-JSON-serializable objects to JSON-compatible types"""
+        import copy
+        json_metrics = copy.deepcopy(metrics)
+
+        for metric_dict in json_metrics:
+            # Convert confusion matrix to list
+            if 'confusion_matrix' in metric_dict and metric_dict['confusion_matrix'] is not None:
+                metric_dict['confusion_matrix'] = metric_dict['confusion_matrix'].tolist()
+
+            # Convert classification report (already dict, but may contain numpy values)
+            if 'classification_report' in metric_dict and metric_dict['classification_report'] is not None:
+                report = metric_dict['classification_report']
+                for key in report:
+                    if isinstance(report[key], dict):
+                        for subkey in report[key]:
+                            if isinstance(report[key][subkey], np.ndarray):
+                                report[key][subkey] = report[key][subkey].tolist()
+                            elif isinstance(report[key][subkey], (np.integer, np.floating)):
+                                report[key][subkey] = float(report[key][subkey])
+
+            # Convert any remaining numpy types
+            for key, value in metric_dict.items():
+                if isinstance(value, np.ndarray):
+                    metric_dict[key] = value.tolist()
+                elif isinstance(value, (np.integer, np.floating)):
+                    metric_dict[key] = float(value)
+                elif isinstance(value, np.bool_):
+                    metric_dict[key] = bool(value)
+
+        return json_metrics
+
     def run_complete_evaluation(self, top_k=5):
         """Run complete evaluation for all models"""
         print("\n" + "="*80)
@@ -593,12 +858,13 @@ class ModelEvaluator:
         
         # Save CSV
         comparison_df.to_csv(output_dir / 'model_comparison.csv', index=False)
-        print(f"\n✓ Saved: {output_dir / 'model_comparison.csv'}")
-        
-        # Save detailed JSON
+        print(f"\n[OK] Saved: {output_dir / 'model_comparison.csv'}")
+
+        # Save detailed JSON (convert numpy arrays to lists)
+        json_metrics = self._convert_metrics_for_json(all_metrics)
         with open(output_dir / 'detailed_metrics.json', 'w') as f:
-            json.dump(all_metrics, f, indent=2)
-        print(f"✓ Saved: {output_dir / 'detailed_metrics.json'}")
+            json.dump(json_metrics, f, indent=2)
+        print(f"[OK] Saved: {output_dir / 'detailed_metrics.json'}")
         
         # Create plots
         self.plot_comparison(all_metrics, output_dir)

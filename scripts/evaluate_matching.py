@@ -11,7 +11,8 @@ from itertools import product
 # Add src to path
 src_path = Path(__file__).parent.parent / 'src'
 sys.path.insert(0, str(src_path))
-
+# Add project root to path
+project_root = Path(__file__).parent.parent
 
 class MatchingEvaluator:
 
@@ -379,9 +380,11 @@ if __name__ == "__main__":
     evaluator.analyze_matches_by_category()
     evaluator.suggest_optimal_threshold()
 
+    GROUND_TRUTH_FILE = project_root / 'dataset' / 'ground_truth_75.json'  # Optional
+
     #uncomment these lines, after creating ground_truth.json to evaluate with ground truth:
-    # evaluator.load_ground_truth('../dataset/ground_truth.json')
-    # metrics = evaluator.evaluate_all_metrics(k_values=[1, 3, 5, 10])
+    evaluator.load_ground_truth(GROUND_TRUTH_FILE)
+    metrics = evaluator.evaluate_all_metrics(k_values=[1, 3, 5, 10])
 
     print("\n" + "="*80)
     print("EVALUATION COMPLETE")
