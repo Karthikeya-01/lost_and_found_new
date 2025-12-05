@@ -1,11 +1,3 @@
-"""
-Test Setup Script
-File: test_setup.py
-
-Quick script to verify your environment and test feature extraction on a few samples.
-Run this before running the full pipeline.
-"""
-
 import sys
 from pathlib import Path
 import json
@@ -186,10 +178,4 @@ except Exception as e:
 print("\n" + "="*80)
 print("SETUP TEST COMPLETE")
 print("="*80)
-print("\n✓ If all tests passed, you're ready to run the feature extraction pipeline!")
-print("\nNext steps:")
-print("  1. Run: python scripts/extract_features.py")
-print("     (or the notebook: notebooks/02_feature_extraction.ipynb)")
-print("  2. This will create a 'features/' directory with all extracted features")
-print("  3. Then proceed to building the matching algorithm")
-print("\n" + "="*80)
+

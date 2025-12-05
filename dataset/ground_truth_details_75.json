@@ -1,0 +1,254 @@
+[
+  {
+    "lost_id": "6bd20e5d-a60c-4bc6-821d-20b4a577f3ef",
+    "found_id": "cf5c06c8-fd02-432c-ae75-f1aa0e7b2423",
+    "confidence": 0.834,
+    "category": "bags",
+    "lost_desc": "This is a dark green fabric backpack, featuring multiple zippered compartments and a mesh side pocke...",
+    "found_desc": "This is a dark blue fabric backpack with black shoulder straps, featuring multiple zippered compartm...",
+    "quality": "high"
+  },
+  {
+    "lost_id": "08eb3d6e-d186-41dd-bd1a-fff1e659629c",
+    "found_id": "53fab267-a2d3-4349-af68-55e2d85ee775",
+    "confidence": 0.771,
+    "category": "earphones",
+    "lost_desc": "This is a pair of black, over-ear headphones with a headband. The right earcup features silver contr...",
+    "found_desc": "This is a pair of black on-ear headphones with an adjustable headband. It features round earcups and...",
+    "quality": "high"
+  },
+  {
+    "lost_id": "92451385-e2ae-427c-9663-8457829e7a97",
+    "found_id": "ad402524-d504-4eb4-a0d1-782d3622109f",
+    "confidence": 0.76,
+    "category": "earphones",
+    "lost_desc": "This is a pair of black over-ear headphones. They feature a distinctive grill-like design on the out...",
+    "found_desc": "This is a pair of black over-ear headphones. They feature large earcups, a padded headband, and a vi...",
+    "quality": "high"
+  },
+  {
+    "lost_id": "acdbf9ea-3cd8-4f47-a1a4-097782721274",
+    "found_id": "53fab267-a2d3-4349-af68-55e2d85ee775",
+    "confidence": 0.88,
+    "category": "earphones",
+    "lost_desc": "This is a pair of black over-ear headphones with a padded headband. One earcup features a visible co...",
+    "found_desc": "This is a pair of black on-ear headphones with an adjustable headband. It features round earcups and...",
+    "quality": "high"
+  },
+  {
+    "lost_id": "e0d12350-be28-4fd2-bf09-30270dd2607b",
+    "found_id": "ad402524-d504-4eb4-a0d1-782d3622109f",
+    "confidence": 0.93,
+    "category": "earphones",
+    "lost_desc": "The item is a pair of black and silver over-ear headphones. They feature large, circular earcups and...",
+    "found_desc": "This is a pair of black over-ear headphones. They feature large earcups, a padded headband, and a vi...",
+    "quality": "high"
+  },
+  {
+    "lost_id": "0c623c1a-5b4e-4056-a7dd-a1e6387d8376",
+    "found_id": "53fab267-a2d3-4349-af68-55e2d85ee775",
+    "confidence": 0.761,
+    "category": "earphones",
+    "lost_desc": "This is a pair of black headphones with a silver-colored adjustable headband. They feature two circu...",
+    "found_desc": "This is a pair of black on-ear headphones with an adjustable headband. It features round earcups and...",
+    "quality": "high"
+  },
+  {
+    "lost_id": "59c2c684-2f2d-46a3-8339-83e99a590a10",
+    "found_id": "63511de3-2c9d-4e4a-a4c7-54fadbfba724",
+    "confidence": 0.767,
+    "category": "earphones",
+    "lost_desc": "This is a pair of black over-ear headphones with perforated outer earcups and cushioned ear pads, sh...",
+    "found_desc": "This is a pair of black over-ear headphones with an adjustable headband. The earcups are cushioned a...",
+    "quality": "high"
+  },
+  {
+    "lost_id": "4331fb30-c3a2-4dd1-a32e-0aa4cf89fcf1",
+    "found_id": "ad402524-d504-4eb4-a0d1-782d3622109f",
+    "confidence": 0.888,
+    "category": "earphones",
+    "lost_desc": "This is a pair of black over-ear headphones. They feature a padded adjustable headband and cushioned...",
+    "found_desc": "This is a pair of black over-ear headphones. They feature large earcups, a padded headband, and a vi...",
+    "quality": "high"
+  },
+  {
+    "lost_id": "14144987-a55f-4124-9e0d-2c4d754733e8",
+    "found_id": "70cb560b-fdc7-4c12-9f09-9ba2046afc0a",
+    "confidence": 0.752,
+    "category": "earphones",
+    "lost_desc": "This is a pair of black Samson SR850 over-ear headphones with a padded headband and earcups. They ar...",
+    "found_desc": "This is a pair of wired, on-ear headphones with a black adjustable headband and silver earcups. They...",
+    "quality": "high"
+  },
+  {
+    "lost_id": "96330bcb-2a33-413d-ba09-f5d7edba5776",
+    "found_id": "6288e22d-05aa-4a70-b5be-447f15f76ee7",
+    "confidence": 0.902,
+    "category": "earphones",
+    "lost_desc": "This is a pair of black over-ear headphones. They feature a padded headband and cushioned earcups, w...",
+    "found_desc": "This is a pair of black over-ear headphones, featuring an adjustable padded headband and cushioned e...",
+    "quality": "high"
+  },
+  {
+    "lost_id": "49be65b2-4b1d-4d4d-867a-62d720721498",
+    "found_id": "23a6b0d6-a9ce-4e2e-b865-98ac1f71257c",
+    "confidence": 0.767,
+    "category": "earphones",
+    "lost_desc": "This is a pair of Sony over-ear headphones, featuring silver-toned earcups with black padding and a ...",
+    "found_desc": "This item is a pair of over-ear headphones. They feature a silver and black design with large, circu...",
+    "quality": "high"
+  },
+  {
+    "lost_id": "1b9b5e4e-2438-4e9e-886d-a78d3934b69a",
+    "found_id": "2aae31b6-40b8-43a8-8125-0bf9a6c1b525",
+    "confidence": 0.773,
+    "category": "earphones",
+    "lost_desc": "This item is a pair of large, silver and black over-ear headphones. They are being worn by a young c...",
+    "found_desc": "The item is a pair of silver and black over-ear headphones. They feature large, circular earcups des...",
+    "quality": "high"
+  },
+  {
+    "lost_id": "7cedb958-33e3-4598-9bda-57b1eba33258",
+    "found_id": "3c3a2ccb-a0ca-415c-afa5-0386813ecc23",
+    "confidence": 0.765,
+    "category": "earphones",
+    "lost_desc": "This is a pair of silver and black over-ear headphones, featuring a padded headband and earcups. The...",
+    "found_desc": "This is a pair of silver and black over-ear headphones, featuring a dual-arc headband design and rou...",
+    "quality": "high"
+  },
+  {
+    "lost_id": "e7b0bfc6-a1d7-42ea-bab5-e597e1304dd8",
+    "found_id": "bfa0e99a-02c3-4079-befe-c1a80384bfc6",
+    "confidence": 0.754,
+    "category": "earphones",
+    "lost_desc": "This is a pair of black, over-ear headphones with an adjustable headband. A wired connection featuri...",
+    "found_desc": "This is a pair of black, wired, over-ear headphones. It features a padded headband connecting the tw...",
+    "quality": "high"
+  },
+  {
+    "lost_id": "724dab08-32d0-4ebe-a9c9-b72934a578d4",
+    "found_id": "4f941692-cf60-4898-876a-f12358f6c76b",
+    "confidence": 0.763,
+    "category": "earphones",
+    "lost_desc": "The item is a pair of over-ear headphones. They are black with silver-colored outer earcups.",
+    "found_desc": "The item is a pair of black, wired over-ear headphones. They are being worn by a man, whose right ha...",
+    "quality": "high"
+  },
+  {
+    "lost_id": "01b76037-d510-4ddf-86e3-901df8e2d501",
+    "found_id": "7ecb30fa-2f0b-42ac-b92b-9d56d33abf6f",
+    "confidence": 0.753,
+    "category": "earphones",
+    "lost_desc": "This is a pair of black, on-ear headphones with an open-back design. The visible earcup is labeled \"...",
+    "found_desc": "This is a pair of black, over-ear headphones with a foldable design. They feature round earcups and ...",
+    "quality": "high"
+  },
+  {
+    "lost_id": "a370851c-3bfd-42de-a6da-50fcb1de1069",
+    "found_id": "104df1f3-1fcf-410a-a96a-d18d28304e0a",
+    "confidence": 0.751,
+    "category": "earphones",
+    "lost_desc": "This is a pair of black over-ear headphones with padded earcups and a matching headband. The headpho...",
+    "found_desc": "This is a pair of silver over-ear headphones. They feature black ear pads, a matching silver headban...",
+    "quality": "high"
+  },
+  {
+    "lost_id": "6df5ab01-8cbb-4b44-b54a-b2f545c4310e",
+    "found_id": "ad402524-d504-4eb4-a0d1-782d3622109f",
+    "confidence": 0.759,
+    "category": "earphones",
+    "lost_desc": "This is a pair of black and silver over-ear headphones with padded earcups. One earcup features visi...",
+    "found_desc": "This is a pair of black over-ear headphones. They feature large earcups, a padded headband, and a vi...",
+    "quality": "high"
+  },
+  {
+    "lost_id": "385d144b-cdd1-420a-8823-46e948cd75e3",
+    "found_id": "d2683d68-3892-4162-a8e2-ccd14b24c52c",
+    "confidence": 0.765,
+    "category": "earphones",
+    "lost_desc": "This is a pair of black over-ear headphones with silver accents. One earcup features a circular gril...",
+    "found_desc": "This is a pair of black, over-ear headphones. They feature gold accents on the earcups and a visible...",
+    "quality": "high"
+  },
+  {
+    "lost_id": "a33dccba-726a-4372-8dbe-1a364e5eda6d",
+    "found_id": "392876d4-cc6f-4ca0-ace8-bbed83c21637",
+    "confidence": 0.759,
+    "category": "earphones",
+    "lost_desc": "This is a pair of black over-ear headphones. They are shown docked in a Sony-branded charging stand.",
+    "found_desc": "This is a pair of black over-ear wireless headphones. They are resting on a matching black charging ...",
+    "quality": "high"
+  },
+  {
+    "lost_id": "d3d007d4-4aa5-42df-aa48-4577df4f4070",
+    "found_id": "9889412e-b773-4ae3-837a-d6581c718152",
+    "confidence": 0.772,
+    "category": "earphones",
+    "lost_desc": "This is a pair of black over-ear headphones with padded earcups and a padded headband. It features a...",
+    "found_desc": "This is a pair of black over-ear headphones with a padded headband. An audio cable is shown with bot...",
+    "quality": "high"
+  },
+  {
+    "lost_id": "aaeb32e7-7082-46e6-a61e-b6ec3aadb024",
+    "found_id": "63511de3-2c9d-4e4a-a4c7-54fadbfba724",
+    "confidence": 0.753,
+    "category": "earphones",
+    "lost_desc": "This is a pair of black, over-ear headphones with distinctive silver horizontal grilles on the earcu...",
+    "found_desc": "This is a pair of black over-ear headphones with an adjustable headband. The earcups are cushioned a...",
+    "quality": "high"
+  },
+  {
+    "lost_id": "814901ff-f78b-4de0-8c50-6f3e79a29443",
+    "found_id": "3c3a2ccb-a0ca-415c-afa5-0386813ecc23",
+    "confidence": 0.853,
+    "category": "earphones",
+    "lost_desc": "This is a pair of over-ear headphones, featuring an adjustable black headband and silver metallic ea...",
+    "found_desc": "This is a pair of silver and black over-ear headphones, featuring a dual-arc headband design and rou...",
+    "quality": "high"
+  },
+  {
+    "lost_id": "078d284d-aba2-4945-9d2b-19dd8d7568de",
+    "found_id": "9ad7c542-23c1-4737-aafe-8dc7c57a4e33",
+    "confidence": 0.751,
+    "category": "earphones",
+    "lost_desc": "This item is a pair of over-ear headphones featuring a black padded headband, silver accents, and go...",
+    "found_desc": "This is a pair of headphones featuring a black, padded headband and two large, round ear cups. A coi...",
+    "quality": "high"
+  },
+  {
+    "lost_id": "22833840-7506-4a51-97a3-ff71a3b1b5cf",
+    "found_id": "9889412e-b773-4ae3-837a-d6581c718152",
+    "confidence": 0.762,
+    "category": "earphones",
+    "lost_desc": "This is a pair of silver and black over-ear headphones with the brand \"DENON\" on the headband. A coi...",
+    "found_desc": "This is a pair of black over-ear headphones with a padded headband. An audio cable is shown with bot...",
+    "quality": "high"
+  },
+  {
+    "lost_id": "004b1476-dc39-4e92-8ce3-3086e1f35324",
+    "found_id": "392876d4-cc6f-4ca0-ace8-bbed83c21637",
+    "confidence": 0.878,
+    "category": "earphones",
+    "lost_desc": "This is a pair of black over-ear headphones. They are resting on a matching black base that likely s...",
+    "found_desc": "This is a pair of black over-ear wireless headphones. They are resting on a matching black charging ...",
+    "quality": "high"
+  },
+  {
+    "lost_id": "c10d4a56-faff-4d3e-9116-76b832760452",
+    "found_id": "ad402524-d504-4eb4-a0d1-782d3622109f",
+    "confidence": 0.908,
+    "category": "earphones",
+    "lost_desc": "This is a pair of black over-ear headphones. They feature large, padded earcups and a cushioned head...",
+    "found_desc": "This is a pair of black over-ear headphones. They feature large earcups, a padded headband, and a vi...",
+    "quality": "high"
+  },
+  {
+    "lost_id": "23e45639-4bbb-41fe-8973-c043a802a4d8",
+    "found_id": "a92bcb9b-e0c2-4ec3-ba4b-2054a030d8ca",
+    "confidence": 0.757,
+    "category": "keys",
+    "lost_desc": "This is a key featuring a silver-colored metal blade and a black plastic head. The word \"UNIQUE\" is ...",
+    "found_desc": "This is a key featuring a dull grey, laser-cut style metal blade with a pointed tip. Its black plast...",
+    "quality": "high"
+  }
+]

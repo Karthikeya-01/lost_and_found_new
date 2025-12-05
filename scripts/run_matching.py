@@ -1,10 +1,3 @@
-"""
-Complete Matching Pipeline
-File: scripts/run_matching.py
-
-Loads extracted features and performs matching between lost and found items.
-"""
-
 import sys
 from pathlib import Path
 
@@ -23,16 +16,8 @@ from tqdm import tqdm
 
 
 class LostAndFoundMatcher:
-    """Main class for matching lost and found items"""
 
     def __init__(self, features_path, output_path=None):
-        """
-        Initialize matcher
-        
-        Args:
-            features_path: Path to extracted features directory
-            output_path: Path to save matching results
-        """
         self.features_path = Path(features_path)
         self.output_path = Path(
             output_path) if output_path else self.features_path / 'matches'
@@ -43,7 +28,6 @@ class LostAndFoundMatcher:
         self.feature_matrices = None
 
     def load_features(self):
-        """Load extracted features"""
         print("Loading extracted features...")
 
         # Load feature matrices
@@ -68,22 +52,7 @@ class LostAndFoundMatcher:
                      require_category_match=True,
                      image_method='cosine',
                      text_method='cosine'):
-        """
-        Run matching algorithm
-        
-        Args:
-            method: 'fast' (matrix-based) or 'slow' (item-by-item)
-            image_weight: Weight for image features
-            text_weight: Weight for text features
-            top_k: Number of matches to return per item
-            min_similarity: Minimum similarity threshold
-            require_category_match: Filter by category
-            image_method: Similarity method for images
-            text_method: Similarity method for text
-            
-        Returns:
-            Dictionary with matches
-        """
+
         print(f"\n{'='*80}")
         print("RUNNING MATCHING ALGORITHM")
         print(f"{'='*80}")
@@ -185,12 +154,6 @@ class LostAndFoundMatcher:
             }
 
     def save_results(self, results):
-        """
-        Save matching results
-        
-        Args:
-            results: Results from run_matching
-        """
         print(f"\n{'='*80}")
         print("SAVING RESULTS")
         print(f"{'='*80}")
@@ -238,7 +201,6 @@ class LostAndFoundMatcher:
         self.create_report(results)
 
     def create_report(self, results):
-        """Create detailed matching report"""
         report = []
         report.append("="*80)
         report.append("MATCHING RESULTS REPORT")
@@ -317,7 +279,6 @@ class LostAndFoundMatcher:
         print(f"\n✓ Saved report to: {report_file}")
 
     def get_matches_for_item(self, lost_id, results):
-        """Get matches for a specific lost item"""
         matches = results['matches'].get(lost_id, [])
 
         if not matches:
@@ -336,7 +297,6 @@ class LostAndFoundMatcher:
         return matches
 
     def run_complete_pipeline(self, **kwargs):
-        """Run the complete matching pipeline"""
         print("\n" + "="*80)
         print("LOST AND FOUND MATCHING PIPELINE")
         print("="*80)
@@ -383,12 +343,6 @@ if __name__ == "__main__":
     print(f"  • matches.json - Matches in JSON format")
     print(f"  • matching_summary.csv - Summary statistics")
     print(f"  • matching_report.txt - Detailed report")
-
-    print("\n🎯 Next steps:")
-    print("  1. Evaluate matching quality")
-    print("  2. Tune parameters (weights, thresholds)")
-    print("  3. Build Streamlit UI")
-    print("  4. Add evaluation metrics")
 
     # Example: Get matches for a specific item
     if len(results['matches']) > 0:

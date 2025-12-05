@@ -1,11 +1,3 @@
-"""
-Feature Extraction Pipeline
-File: notebooks/02_feature_extraction.ipynb (or scripts/extract_features.py)
-
-This script processes the entire dataset and extracts features from all items.
-Features are saved for later use in matching algorithms.
-"""
-
 import sys
 import os
 import warnings
@@ -27,16 +19,7 @@ from tqdm import tqdm
 
 
 class FeatureExtractionPipeline:
-    """Pipeline to extract and save features from all items"""
-
     def __init__(self, dataset_path, output_path):
-        """
-        Initialize pipeline
-        
-        Args:
-            dataset_path: Path to dataset directory
-            output_path: Path to save extracted features
-        """
         self.dataset_path = Path(dataset_path)
         self.output_path = Path(output_path)
         self.output_path.mkdir(parents=True, exist_ok=True)
@@ -50,7 +33,6 @@ class FeatureExtractionPipeline:
         self.df = None
 
     def load_metadata(self):
-        """Load metadata from JSON file"""
         metadata_path = self.dataset_path / 'metadata_labelled.json'
 
         print(f"Loading metadata from: {metadata_path}")
@@ -63,7 +45,6 @@ class FeatureExtractionPipeline:
         return self.df
 
     def fit_text_extractor(self):
-        """Fit TF-IDF vectorizer on all descriptions"""
         print("\nFitting TF-IDF vectorizer...")
 
         # Get all descriptions (only labelled ones)
@@ -84,16 +65,6 @@ class FeatureExtractionPipeline:
         print(f"✓ Saved TF-IDF vectorizer to: {vectorizer_path}")
 
     def extract_features_for_item(self, item_data, include_sift=False):
-        """
-        Extract features for a single item
-        
-        Args:
-            item_data: Dictionary with item metadata
-            include_sift: Whether to include SIFT features
-            
-        Returns:
-            Dictionary with extracted features
-        """
         item_id = item_data['id']
         category = item_data['category']
         filename = item_data['filename']
@@ -146,16 +117,6 @@ class FeatureExtractionPipeline:
         return features
 
     def extract_all_features(self, include_sift=False, save_individual=False):
-        """
-        Extract features for all items in dataset
-        
-        Args:
-            include_sift: Whether to include SIFT features (slower)
-            save_individual: Save individual feature files per item
-            
-        Returns:
-            List of feature dictionaries
-        """
         print(f"\n{'='*80}")
         print("EXTRACTING FEATURES FROM ALL ITEMS")
         print(f"{'='*80}")
@@ -203,15 +164,6 @@ class FeatureExtractionPipeline:
         return all_features
 
     def create_feature_matrices(self, all_features):
-        """
-        Create numpy matrices for efficient computation
-        
-        Args:
-            all_features: List of feature dictionaries
-            
-        Returns:
-            Dictionary with feature matrices and metadata
-        """
         print("\nCreating feature matrices...")
 
         # Separate by status
@@ -258,13 +210,6 @@ class FeatureExtractionPipeline:
         return matrices
 
     def save_features(self, all_features, matrices):
-        """
-        Save extracted features to disk
-        
-        Args:
-            all_features: List of all feature dictionaries
-            matrices: Feature matrices
-        """
         print(f"\n{'='*80}")
         print("SAVING FEATURES")
         print(f"{'='*80}")
@@ -301,8 +246,6 @@ class FeatureExtractionPipeline:
         self.create_statistics_report(all_features, matrices)
 
     def create_statistics_report(self, all_features, matrices):
-        """Create a statistics report about extracted features"""
-
         report = []
         report.append("="*80)
         report.append("FEATURE EXTRACTION STATISTICS")
@@ -352,12 +295,6 @@ class FeatureExtractionPipeline:
         print(f"\n✓ Saved extraction report to: {report_file}")
 
     def run(self, include_sift=False):
-        """
-        Run the complete feature extraction pipeline
-        
-        Args:
-            include_sift: Whether to include SIFT features
-        """
         print("\n" + "="*80)
         print("FEATURE EXTRACTION PIPELINE")
         print("="*80)

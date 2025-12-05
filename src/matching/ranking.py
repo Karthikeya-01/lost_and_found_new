@@ -1,10 +1,3 @@
-"""
-Ranking and Matching Module
-File: src/matching/ranking.py
-
-Ranks and retrieves top-K matches for lost items.
-"""
-
 import numpy as np
 import pandas as pd
 from typing import List, Dict, Optional

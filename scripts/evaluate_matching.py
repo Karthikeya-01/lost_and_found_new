@@ -1,10 +1,3 @@
-"""
-Matching Evaluation and Parameter Tuning
-File: scripts/evaluate_matching.py
-
-Evaluates matching performance and helps tune parameters.
-"""
-
 import pickle
 import json
 import numpy as np
@@ -21,21 +14,13 @@ sys.path.insert(0, str(src_path))
 
 
 class MatchingEvaluator:
-    """Evaluate and tune matching algorithm"""
 
     def __init__(self, results_path):
-        """
-        Initialize evaluator
-        
-        Args:
-            results_path: Path to matching results
-        """
         self.results_path = Path(results_path)
         self.results = None
         self.ground_truth = None
 
     def load_results(self):
-        """Load matching results"""
         results_file = self.results_path / 'matching_results.pkl'
         with open(results_file, 'rb') as f:
             self.results = pickle.load(f)
@@ -45,29 +30,12 @@ class MatchingEvaluator:
         print(f"  Lost items: {len(self.results['matches'])}")
 
     def load_ground_truth(self, ground_truth_file):
-        """
-        Load ground truth matches (if available)
-        
-        Args:
-            ground_truth_file: Path to ground truth JSON file
-                              Format: {"lost_id": "correct_found_id", ...}
-        """
         with open(ground_truth_file, 'r') as f:
             self.ground_truth = json.load(f)
 
         print(f"✓ Loaded ground truth for {len(self.ground_truth)} items")
 
     def compute_precision_at_k(self, k=None):
-        """
-        Compute Precision@K
-        Precision@K = (# of correct matches in top-K) / K
-        
-        Args:
-            k: K value (if None, use all matches)
-            
-        Returns:
-            Dictionary with precision scores
-        """
         if not self.ground_truth:
             print("⚠ Ground truth not available")
             return None
@@ -105,16 +73,6 @@ class MatchingEvaluator:
         }
 
     def compute_recall_at_k(self, k=None):
-        """
-        Compute Recall@K
-        Recall@K = (# of items with correct match in top-K) / (# of items with ground truth)
-        
-        Args:
-            k: K value
-            
-        Returns:
-            Recall score
-        """
         if not self.ground_truth:
             print("⚠ Ground truth not available")
             return None
@@ -150,13 +108,6 @@ class MatchingEvaluator:
         }
 
     def compute_mean_reciprocal_rank(self):
-        """
-        Compute Mean Reciprocal Rank (MRR)
-        MRR = average of (1 / rank_of_correct_match)
-        
-        Returns:
-            MRR score
-        """
         if not self.ground_truth:
             print("⚠ Ground truth not available")
             return None
@@ -186,13 +137,6 @@ class MatchingEvaluator:
         }
 
     def compute_top_1_accuracy(self):
-        """
-        Compute Top-1 Accuracy
-        Accuracy = (# of items where top match is correct) / (total items)
-        
-        Returns:
-            Accuracy score
-        """
         if not self.ground_truth:
             print("⚠ Ground truth not available")
             return None
@@ -224,15 +168,6 @@ class MatchingEvaluator:
         }
 
     def evaluate_all_metrics(self, k_values=[1, 3, 5, 10]):
-        """
-        Compute all evaluation metrics
-        
-        Args:
-            k_values: List of K values to evaluate
-            
-        Returns:
-            Dictionary with all metrics
-        """
         print(f"\n{'='*80}")
         print("EVALUATION METRICS")
         print(f"{'='*80}\n")
@@ -273,7 +208,6 @@ class MatchingEvaluator:
         return metrics
 
     def analyze_similarity_distribution(self):
-        """Analyze distribution of similarity scores"""
         print(f"\n{'='*80}")
         print("SIMILARITY DISTRIBUTION ANALYSIS")
         print(f"{'='*80}\n")
@@ -343,7 +277,6 @@ class MatchingEvaluator:
         plt.show()
 
     def analyze_matches_by_category(self):
-        """Analyze matching performance by category"""
         print(f"\n{'='*80}")
         print("MATCHES BY CATEGORY")
         print(f"{'='*80}\n")
@@ -395,7 +328,6 @@ class MatchingEvaluator:
             print()
 
     def suggest_optimal_threshold(self):
-        """Suggest optimal similarity threshold based on distribution"""
         all_similarities = []
 
         for lost_id, item_matches in self.results['matches'].items():
@@ -447,7 +379,7 @@ if __name__ == "__main__":
     evaluator.analyze_matches_by_category()
     evaluator.suggest_optimal_threshold()
 
-    # If you have ground truth, uncomment these lines:
+    #uncomment these lines, after creating ground_truth.json to evaluate with ground truth:
     # evaluator.load_ground_truth('../dataset/ground_truth.json')
     # metrics = evaluator.evaluate_all_metrics(k_values=[1, 3, 5, 10])
 

@@ -1,10 +1,3 @@
-"""
-Similarity Computation Module
-File: src/matching/similarity.py
-
-Computes similarity scores between lost and found items using extracted features.
-"""
-
 import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity, euclidean_distances
 from sklearn.preprocessing import normalize
@@ -12,28 +5,11 @@ from datetime import datetime
 
 
 class SimilarityComputer:
-    """Compute similarity between lost and found items"""
 
     def __init__(self, weights=None):
-        """
-        Initialize similarity computer
-        
-        Args:
-            weights: Dictionary with feature weights
-                    {'image': 0.6, 'text': 0.4}
-        """
         self.weights = weights or {'image': 0.6, 'text': 0.4}
 
     def cosine_sim(self, vec1, vec2):
-        """
-        Compute cosine similarity between two vectors
-        
-        Args:
-            vec1, vec2: Feature vectors
-            
-        Returns:
-            Similarity score [0, 1]
-        """
         if vec1 is None or vec2 is None:
             return 0.0
 
@@ -43,16 +19,6 @@ class SimilarityComputer:
         return cosine_similarity(vec1, vec2)[0, 0]
 
     def euclidean_sim(self, vec1, vec2):
-        """
-        Compute similarity based on Euclidean distance
-        Converts distance to similarity: sim = 1 / (1 + distance)
-        
-        Args:
-            vec1, vec2: Feature vectors
-            
-        Returns:
-            Similarity score [0, 1]
-        """
         if vec1 is None or vec2 is None:
             return 0.0
 
@@ -67,15 +33,6 @@ class SimilarityComputer:
         return similarity
 
     def normalized_euclidean_sim(self, vec1, vec2):
-        """
-        Compute similarity using normalized Euclidean distance
-        
-        Args:
-            vec1, vec2: Feature vectors
-            
-        Returns:
-            Similarity score [0, 1]
-        """
         if vec1 is None or vec2 is None:
             return 0.0
 
@@ -92,16 +49,6 @@ class SimilarityComputer:
         return max(0, similarity)  # Ensure non-negative
 
     def compute_image_similarity(self, img_feat1, img_feat2, method='cosine'):
-        """
-        Compute image feature similarity
-        
-        Args:
-            img_feat1, img_feat2: Image feature vectors
-            method: 'cosine', 'euclidean', or 'normalized_euclidean'
-            
-        Returns:
-            Similarity score [0, 1]
-        """
         if method == 'cosine':
             return self.cosine_sim(img_feat1, img_feat2)
         elif method == 'euclidean':
@@ -112,16 +59,6 @@ class SimilarityComputer:
             raise ValueError(f"Unknown method: {method}")
 
     def compute_text_similarity(self, txt_feat1, txt_feat2, method='cosine'):
-        """
-        Compute text feature similarity
-        
-        Args:
-            txt_feat1, txt_feat2: Text feature vectors
-            method: 'cosine', 'euclidean', or 'normalized_euclidean'
-            
-        Returns:
-            Similarity score [0, 1]
-        """
         if method == 'cosine':
             return self.cosine_sim(txt_feat1, txt_feat2)
         elif method == 'euclidean':
@@ -131,20 +68,7 @@ class SimilarityComputer:
         else:
             raise ValueError(f"Unknown method: {method}")
 
-    def compute_combined_similarity(self, lost_item, found_item,
-                                    image_method='cosine', text_method='cosine'):
-        """
-        Compute combined similarity score
-        
-        Args:
-            lost_item: Dictionary with lost item features
-            found_item: Dictionary with found item features
-            image_method: Method for image similarity
-            text_method: Method for text similarity
-            
-        Returns:
-            Dictionary with similarity scores
-        """
+    def compute_combined_similarity(self, lost_item, found_item, image_method='cosine', text_method='cosine'):
         # Extract features
         img_feat_lost = lost_item.get('image_features')
         img_feat_found = found_item.get('image_features')
@@ -184,28 +108,9 @@ class SimilarityComputer:
         }
 
     def compute_category_match(self, category1, category2):
-        """
-        Check if categories match (exact match required)
-        
-        Args:
-            category1, category2: Category strings
-            
-        Returns:
-            1.0 if match, 0.0 otherwise
-        """
         return 1.0 if category1 == category2 else 0.0
 
     def compute_temporal_validity(self, lost_timestamp, found_timestamp):
-        """
-        Check temporal validity: found date should be >= lost date
-        
-        Args:
-            lost_timestamp: When item was lost
-            found_timestamp: When item was found
-            
-        Returns:
-            1.0 if valid, 0.0 otherwise
-        """
         try:
             lost_date = datetime.fromisoformat(
                 lost_timestamp.replace('Z', '+00:00'))
@@ -222,20 +127,6 @@ class SimilarityComputer:
                             require_temporal_validity=True,
                             image_method='cosine',
                             text_method='cosine'):
-        """
-        Compute overall match score with filters
-        
-        Args:
-            lost_item: Lost item features
-            found_item: Found item features
-            require_category_match: Filter by category
-            require_temporal_validity: Filter by timestamp
-            image_method: Similarity method for images
-            text_method: Similarity method for text
-            
-        Returns:
-            Dictionary with scores and validity flags
-        """
         # Check category
         category_match = self.compute_category_match(
             lost_item['category'],
@@ -287,20 +178,6 @@ class SimilarityComputer:
                                    require_temporal_validity=True,
                                    image_method='cosine',
                                    text_method='cosine'):
-        """
-        Compute similarities for all lost-found pairs
-        
-        Args:
-            lost_items: List of lost item features
-            found_items: List of found item features
-            require_category_match: Filter by category
-            require_temporal_validity: Filter by timestamp
-            image_method: Similarity method for images
-            text_method: Similarity method for text
-            
-        Returns:
-            List of match scores
-        """
         all_matches = []
 
         for lost_item in lost_items:
@@ -320,29 +197,11 @@ class SimilarityComputer:
 
 
 class FastSimilarityComputer:
-    """Optimized similarity computation using matrix operations"""
 
     def __init__(self, weights=None):
-        """
-        Initialize fast similarity computer
-        
-        Args:
-            weights: Dictionary with feature weights
-        """
         self.weights = weights or {'image': 0.6, 'text': 0.4}
 
     def compute_similarity_matrix(self, features1, features2, method='cosine'):
-        """
-        Compute similarity matrix between two feature matrices
-        
-        Args:
-            features1: (N, D) feature matrix
-            features2: (M, D) feature matrix
-            method: 'cosine' or 'euclidean'
-            
-        Returns:
-            (N, M) similarity matrix
-        """
         if method == 'cosine':
             # Cosine similarity matrix
             return cosine_similarity(features1, features2)
@@ -356,20 +215,7 @@ class FastSimilarityComputer:
         else:
             raise ValueError(f"Unknown method: {method}")
 
-    def compute_all_similarities(self, lost_matrix, found_matrix,
-                                 image_method='cosine', text_method='cosine'):
-        """
-        Compute all similarities using matrix operations
-        
-        Args:
-            lost_matrix: Dictionary with lost item features
-            found_matrix: Dictionary with found item features
-            image_method: Method for image similarity
-            text_method: Method for text similarity
-            
-        Returns:
-            Dictionary with similarity matrices
-        """
+    def compute_all_similarities(self, lost_matrix, found_matrix, image_method='cosine', text_method='cosine'):
         results = {}
 
         # Image similarities

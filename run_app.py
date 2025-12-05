@@ -1,6 +1,3 @@
-"""
-Wrapper script to run the Streamlit app with correct Python path
-"""
 import sys
 from pathlib import Path
 import os
