@@ -3142,26 +3142,26 @@ File: app/streamlit_app.py
 Interactive web interface for the Lost and Found matching system.
 """
 
+# Add project root to path FIRST, before any imports
+import sys
+from pathlib import Path
+
+# Get the project root directory (parent of app directory)
+# Add project root to path
+project_root = Path(__file__).parent.parent
+sys.path.insert(0, str(project_root))
+
+# Now import everything else
 import streamlit as st
 import pickle
 import json
 import numpy as np
 import pandas as pd
-from pathlib import Path
 from PIL import Image
-import sys
 import os
 from datetime import datetime
 
-# Get the project root directory (parent of app directory)
-current_dir = Path(__file__).parent
-project_root = current_dir.parent
-
-# Add project root to path if not already there
-if str(project_root) not in sys.path:
-    sys.path.insert(0, str(project_root))
-
-# Now import from src
+# Import from src after path is set up
 from src.feature_extraction.image_features import ImageFeatureExtractor
 from src.feature_extraction.text_features import TextFeatureExtractor
 from src.matching.similarity import SimilarityComputer
