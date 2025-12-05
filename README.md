@@ -192,8 +192,8 @@ python evaluate_matching.py
 
 Start the interactive interface:
 ```bash
-cd ../app
-streamlit run streamlit_app.py
+cd ../project_folder
+python run_app.py
 ```
 
 **Features:**
